@@ -4,14 +4,20 @@
               android:orientation="vertical"
               android:gravity="center"
               android:layout_height="match_parent">
+    <Button
+        android:id="@+id/buttonsorting"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="SORTING" />
 
-    <!--<include layout="@layout/base_toolbar"/>-->
+    <include layout="@layout/base_toolbar"/>
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/myCoordinatorLayout"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="match_parent"
         >
+
 
         <LinearLayout
             android:id="@+id/toDoEmptyView"
@@ -35,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+
         </LinearLayout>
 
 
@@ -45,11 +52,12 @@
 
 
         <com.example.avjindersinghsekhon.minimaltodo.Utility.RecyclerViewEmptySupport
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:id="@+id/toDoRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="709dp"
+            app:layout_anchor="@+id/toDoEmptyView"
+            app:layout_anchorGravity="center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.FloatingActionButton
             android:src="@drawable/ic_add_white_24dp"
