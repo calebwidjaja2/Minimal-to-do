@@ -12,7 +12,7 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/sortingStars"
-        android:title="Sorting based on Rating"
+        android:title="Sorting based on Priority"
         app:showAsAction="never"/>
 
 </menu>

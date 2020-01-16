@@ -27,6 +27,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.content.ClipboardManager;
 import android.widget.Toast;
@@ -61,7 +62,7 @@ public class AddToDoFragment extends AppDefaultFragment implements DatePickerDia
     //    private TextView mLastSeenTextView;
     private LinearLayout mUserDateSpinnerContainingLinearLayout;
     private TextView mReminderTextView;
-
+    private RatingBar ratingBar;
     private String CombinationText;
 
     private EditText mDateEditText;
@@ -127,6 +128,31 @@ public class AddToDoFragment extends AppDefaultFragment implements DatePickerDia
 
         }
 
+        ratingBar = (RatingBar)view.findViewById(R.id.ratingStars);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                String message = null;
+                int rating = (int) v;
+
+                switch (rating){
+                    case 1:
+                        message = "low priority";
+                        break;
+                    case 2:
+                        message = "Middle Priority";
+                        break;
+                    case 3:
+                        message = "High Priority";
+                        break;
+                    default:
+                }
+                mUserToDoItem.setRatingBar(rating);
+                Log.v("srt", ""+rating);
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         mUserToDoItem = (ToDoItem) getActivity().getIntent().getSerializableExtra(MainFragment.TODOITEM);
 
@@ -135,6 +161,8 @@ public class AddToDoFragment extends AppDefaultFragment implements DatePickerDia
         mUserHasReminder = mUserToDoItem.hasReminder();
         mUserReminderDate = mUserToDoItem.getToDoDate();
         mUserColor = mUserToDoItem.getTodoColor();
+        ratingBar.setRating(mUserToDoItem.getRatingBar());
+
 
 
 //        if(mUserToDoItem.getLastEdited()==null) {
@@ -539,6 +567,11 @@ public class AddToDoFragment extends AppDefaultFragment implements DatePickerDia
         setTimeEditText();
     }
 
+//    public void setRatingBar(){
+//        switch ()
+//
+//    }
+
     public void setDateEditText() {
         String dateFormat = "d MMM, yyyy";
         mDateEditText.setText(formatDate(dateFormat, mUserReminderDate));
@@ -608,6 +641,7 @@ public class AddToDoFragment extends AppDefaultFragment implements DatePickerDia
         mUserToDoItem.setHasReminder(mUserHasReminder);
         mUserToDoItem.setToDoDate(mUserReminderDate);
         mUserToDoItem.setTodoColor(mUserColor);
+        mUserToDoItem.setRatingBar(mUserToDoItem.getRatingBar());
         i.putExtra(MainFragment.TODOITEM, mUserToDoItem);
         getActivity().setResult(result, i);
     }

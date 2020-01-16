@@ -4,11 +4,14 @@
               android:orientation="vertical"
               android:gravity="center"
               android:layout_height="match_parent">
+
     <Button
         android:id="@+id/buttonsorting"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:text="SORTING" />
+        android:layout_width="49dp"
+        android:layout_height="36dp"
+        android:background="#2A3DA5"
+        android:text="SORT"
+        android:textColor="#Ffffff"/>
 
     <include layout="@layout/base_toolbar"/>
     <android.support.design.widget.CoordinatorLayout

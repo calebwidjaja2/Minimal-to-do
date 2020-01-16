@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +64,7 @@ import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 public class MainFragment extends AppDefaultFragment {
     private Button button;
+    private RatingBar ratingBar;
     private RecyclerViewEmptySupport mRecyclerView;
     private FloatingActionButton mAddToDoItemFAB;
     private ArrayList<ToDoItem> mToDoItemsArrayList;
@@ -121,6 +124,11 @@ public class MainFragment extends AppDefaultFragment {
                             case R.id.sortingTime:
                                 sortArrayListTiming();
                         }
+
+                        switch (menuItem.getItemId()){
+                            case R.id.sortingStars:
+                                sortArrayListPriority();
+                        }
                      return true;
                     }
                 });
@@ -128,6 +136,7 @@ public class MainFragment extends AppDefaultFragment {
                 popupMenu.show();
             }
         });
+
 
         theme = getActivity().getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE).getString(THEME_SAVED, LIGHTTHEME);
 
@@ -182,7 +191,7 @@ public class MainFragment extends AppDefaultFragment {
             public void onClick(View v) {
                 app.send(this, "Action", "FAB pressed");
                 Intent newTodo = new Intent(getContext(), AddToDoActivity.class);
-                ToDoItem item = new ToDoItem("","", false, null);
+                ToDoItem item = new ToDoItem("","", false, null, 3 );
                 int color = ColorGenerator.MATERIAL.getRandomColor();
                 item.setTodoColor(color);
                 //noinspection ResourceType
@@ -463,7 +472,7 @@ public class MainFragment extends AppDefaultFragment {
 
     public void makeUpItems(ArrayList<ToDoItem> items, int len) {
         for (String testString : testStrings) {
-            ToDoItem item = new ToDoItem(testString,testString, false, new Date());
+            ToDoItem item = new ToDoItem(testString,testString, false, new Date(), 3);
             //noinspection ResourceType
 //            item.setTodoColor(getResources().getString(R.color.red_secondary));
             items.add(item);
@@ -715,6 +724,16 @@ public class MainFragment extends AppDefaultFragment {
             @Override
             public int compare(ToDoItem toDoItem, ToDoItem t1) {
                 return toDoItem.getToDoDate().compareTo(t1.getToDoDate());
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortArrayListPriority(){
+        Collections.sort(mToDoItemsArrayList, new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem toDoItem, ToDoItem t1) {
+                return t1.getRatingBar()- toDoItem.getRatingBar();
             }
         });
         adapter.notifyDataSetChanged();
