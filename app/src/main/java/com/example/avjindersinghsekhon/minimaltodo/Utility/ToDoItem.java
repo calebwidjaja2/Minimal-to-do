@@ -1,5 +1,8 @@
 package com.example.avjindersinghsekhon.minimaltodo.Utility;
 
+import android.media.Rating;
+import android.widget.RatingBar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +19,7 @@ public class ToDoItem implements Serializable {
     private int mTodoColor;
     private Date mToDoDate;
     private UUID mTodoIdentifier;
+    private int ratingBar;
     //add description
     private static final String TODODESCRIPTION = "tododescription";
     private static final String TODOTEXT = "todotext";
@@ -24,15 +28,18 @@ public class ToDoItem implements Serializable {
     private static final String TODOCOLOR = "todocolor";
     private static final String TODODATE = "tododate";
     private static final String TODOIDENTIFIER = "todoidentifier";
+    private static final String TODORATINGBAR = "mRatingBar";
 
 
-    public ToDoItem(String todoBody,String tododescription,  boolean hasReminder, Date toDoDate) {
+
+    public ToDoItem(String todoBody,String tododescription,  boolean hasReminder, Date toDoDate, int mRatingBar) {
         mToDoText = todoBody;
         mHasReminder = hasReminder;
         mToDoDate = toDoDate;
         mToDoDescription = tododescription;
         mTodoColor = 1677725;
         mTodoIdentifier = UUID.randomUUID();
+        ratingBar = mRatingBar;
     }
 
     public ToDoItem(JSONObject jsonObject) throws JSONException {
@@ -40,7 +47,7 @@ public class ToDoItem implements Serializable {
         mToDoDescription = jsonObject.getString(TODODESCRIPTION);
         mHasReminder = jsonObject.getBoolean(TODOREMINDER);
         mTodoColor = jsonObject.getInt(TODOCOLOR);
-
+        ratingBar = jsonObject.getInt(TODORATINGBAR);
         mTodoIdentifier = UUID.fromString(jsonObject.getString(TODOIDENTIFIER));
 
 //        if(jsonObject.has(TODOLASTEDITED)){
@@ -62,13 +69,13 @@ public class ToDoItem implements Serializable {
         }
         jsonObject.put(TODOCOLOR, mTodoColor);
         jsonObject.put(TODOIDENTIFIER, mTodoIdentifier.toString());
-
+        jsonObject.put(TODORATINGBAR, ratingBar);
         return jsonObject;
     }
 
 
     public ToDoItem() {
-        this("Clean my room","Sweep and Mop my Room", true, new Date());
+        this("Clean my room","Sweep and Mop my Room", true, new Date(), 0);
     }
 
     public String getmToDoDescription() { return mToDoDescription;}
@@ -78,6 +85,8 @@ public class ToDoItem implements Serializable {
     public String getToDoText() {
         return mToDoText;
     }
+
+    public int getRatingBar() { return ratingBar;}
 
     public void setToDoText(String mToDoText) {
         this.mToDoText = mToDoText;
@@ -107,9 +116,12 @@ public class ToDoItem implements Serializable {
         this.mToDoDate = mToDoDate;
     }
 
+    public void setRatingBar (int ratingBar) { this.ratingBar = ratingBar;}
 
     public UUID getIdentifier() {
         return mTodoIdentifier;
     }
+
+
 }
 

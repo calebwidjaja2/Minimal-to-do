@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,9 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -48,13 +54,17 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 public class MainFragment extends AppDefaultFragment {
+    private Button button;
+    private RatingBar ratingBar;
     private RecyclerViewEmptySupport mRecyclerView;
     private FloatingActionButton mAddToDoItemFAB;
     private ArrayList<ToDoItem> mToDoItemsArrayList;
@@ -95,6 +105,39 @@ public class MainFragment extends AppDefaultFragment {
 //                .setDefaultFontPath("fonts/Aller_Regular.tff").setFontAttrId(R.attr.fontPath).build());
 
         //We recover the theme we've set and setTheme accordingly
+
+        button = (Button) view.findViewById(R.id.buttonsorting);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), button);
+                popupMenu.getMenuInflater().inflate(R.menu.sorting_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.sortingAZ:
+                                sortArrayList();
+                        }
+                        switch (menuItem.getItemId()){
+                            case R.id.sortingTime:
+                                sortArrayListTiming();
+                        }
+
+                        switch (menuItem.getItemId()){
+                            case R.id.sortingStars:
+                                sortArrayListPriority();
+                        }
+                     return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+
         theme = getActivity().getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE).getString(THEME_SAVED, LIGHTTHEME);
 
         if (theme.equals(LIGHTTHEME)) {
@@ -148,7 +191,7 @@ public class MainFragment extends AppDefaultFragment {
             public void onClick(View v) {
                 app.send(this, "Action", "FAB pressed");
                 Intent newTodo = new Intent(getContext(), AddToDoActivity.class);
-                ToDoItem item = new ToDoItem("","", false, null);
+                ToDoItem item = new ToDoItem("","", false, null, 3 );
                 int color = ColorGenerator.MATERIAL.getRandomColor();
                 item.setTodoColor(color);
                 //noinspection ResourceType
@@ -324,9 +367,14 @@ public class MainFragment extends AppDefaultFragment {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.sorting:
+                Toast.makeText(getContext(), "HELLO YOU CLICKED", Toast.LENGTH_SHORT).show();
+                return true;
+
             case R.id.aboutMeMenuItem:
                 Intent i = new Intent(getContext(), AboutActivity.class);
                 startActivity(i);
@@ -424,7 +472,7 @@ public class MainFragment extends AppDefaultFragment {
 
     public void makeUpItems(ArrayList<ToDoItem> items, int len) {
         for (String testString : testStrings) {
-            ToDoItem item = new ToDoItem(testString,testString, false, new Date());
+            ToDoItem item = new ToDoItem(testString,testString, false, new Date(), 3);
             //noinspection ResourceType
 //            item.setTodoColor(getResources().getString(R.color.red_secondary));
             items.add(item);
@@ -652,4 +700,43 @@ public class MainFragment extends AppDefaultFragment {
     public static MainFragment newInstance() {
         return new MainFragment();
     }
+
+
+    private class customComparatorLetter implements Comparator<ToDoItem>{
+        public int compare(ToDoItem t1, ToDoItem t2){
+            return t1.getToDoText().compareTo(t2.getToDoText());
+        }
+
+    }
+
+    private void sortArrayList(){
+        Collections.sort(mToDoItemsArrayList, new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem toDoItem, ToDoItem t1) {
+                return toDoItem.getToDoText().compareTo(t1.getToDoText());
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortArrayListTiming(){
+        Collections.sort(mToDoItemsArrayList, new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem toDoItem, ToDoItem t1) {
+                return toDoItem.getToDoDate().compareTo(t1.getToDoDate());
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortArrayListPriority(){
+        Collections.sort(mToDoItemsArrayList, new Comparator<ToDoItem>() {
+            @Override
+            public int compare(ToDoItem toDoItem, ToDoItem t1) {
+                return t1.getRatingBar()- toDoItem.getRatingBar();
+            }
+        });
+        adapter.notifyDataSetChanged();
+    }
+
 }

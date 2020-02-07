@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minimal</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="no_to_dos">Kamu Belum Daftarkan Kegiatan</string>
+    <string name="title">Kegiatan</string>
+    <string name="remind_me">Ingatkan Saya</string>
+    <string name="choose_date">Tanggal</string>
+    <string name="choose_time">Waktu</string>
+    <string name="remind_date_and_time">Ingatkan Saya Setiap %1$s, %2$s %3$s</string>
+    <string name="about">Tentang</string>
+    <string name="app_version">Versi: %1$s</string>
+    <string name="contact_me">Kamu bisa hubungin kami di</string>
+    <string name="made_by">Dibuat oleh Avjinder</string>
+    <string name="done_label">Selesai</string>
+    <string name="date_reminder_default">Hari ini</string>
+    <string name="date_error_check_again">Tanggal yang kamu masukkan sudah lewat</string>
+    <string name="night_mode">Mode Malam</string>
+    <string name="night_mode_on_summary">Mode Malam sudah di aktifkan</string>
+    <string name="night_mode_off_summary">Mode Malam sudah di non-aktifkan</string>
+    <string name="description">Deskripsi</string>
+
+    <string-array name="snooze_options">
+        <item>10 Menit</item>
+        <item>30 Menit</item>
+        <item>1 Jam</item>
+    </string-array>
+
+    <string name="snooze">Tunda</string>
+    <string name="remove">Hapus</string>
+    <string name="todo_error">Daftarkan Kegiatan</string>
+</resources>
