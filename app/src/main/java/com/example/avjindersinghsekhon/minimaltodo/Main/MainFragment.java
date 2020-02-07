@@ -62,7 +62,7 @@ import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
-public class MainFragment extends AppDefaultFragment {
+public class    MainFragment extends AppDefaultFragment {
     private Button button;
     private RatingBar ratingBar;
     private RecyclerViewEmptySupport mRecyclerView;
@@ -371,10 +371,6 @@ public class MainFragment extends AppDefaultFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.sorting:
-                Toast.makeText(getContext(), "HELLO YOU CLICKED", Toast.LENGTH_SHORT).show();
-                return true;
-
             case R.id.aboutMeMenuItem:
                 Intent i = new Intent(getContext(), AboutActivity.class);
                 startActivity(i);
