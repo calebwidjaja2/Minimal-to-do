@@ -14,18 +14,6 @@
 
     <item android:title="@string/about"
         android:id="@+id/aboutMeMenuItem"
-        app:showAsAction="never" />
-
-    <item android:title="Sorting"
-        android:id="@+id/sorting"
-        app:showAsAction="never">
-
-<!--        <menu>-->
-<!--            <item-->
-<!--                android:title="Sorting A to Z"-->
-<!--                android:id="@+id/sortingAZ"-->
-<!--                app:showAsAction="never"/>-->
-<!--        </menu>-->
-    </item>
+        app:showAsAction="never"/>
 
 </menu>
